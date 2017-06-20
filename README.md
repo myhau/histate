@@ -12,3 +12,4 @@ Planned features:
 - show history of object variables state 
 - show history of static variables state
 - each "state" change should have context associated with it (package, thread, which line of code changed it, time, stacktrace)
+- debugger-like view for a variable (persisted history of state of each object)
