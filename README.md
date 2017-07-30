@@ -15,7 +15,7 @@ Planned features:
 - debugger-like view for a variable (persisted history of state of each object)
 
 
-Ideas
+Ideas:
 - detect or mark by hand pure functions so that you can quickly check how it will work if some inputs are modified
 https://people.eecs.berkeley.edu/~daw/papers/pure-ccs08.pdf
 https://people.csail.mit.edu/rinard/paper/vmcai05.purity.ps
