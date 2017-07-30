@@ -13,3 +13,7 @@ Planned features:
 - show history of static variables state
 - each "state" change should have context associated with it (package, thread, which line of code changed it, time, stacktrace)
 - debugger-like view for a variable (persisted history of state of each object)
+
+
+Ideas
+- detect or mark by hand pure functions so that you can quickly check how it will work if some inputs are modified
