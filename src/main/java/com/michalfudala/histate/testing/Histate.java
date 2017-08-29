@@ -13,17 +13,19 @@ import java.lang.instrument.Instrumentation;
 
 final public class Histate {
 
-    public static void instrument() {
+    public static void instrument(StatesRepository repository) {
         Instrumentation instrumentation = ByteBuddyAgent.install();
-
 
         new AgentBuilder.Default()
 //                .with(AgentBuilder.Listener.StreamWriting.toSystemOut())
                 .type(ElementMatchers.nameEndsWith("ForTesting"))
                 .transform((builder, typeDescription, classLoader, javaModule) -> {
                     return builder.method(ElementMatchers.any())
-                            .intercept(MethodDelegation.to(new PrintFunctionAllCalls()));
+                            .intercept(MethodDelegation.to(repository));
                 })
                 .installOnByteBuddyAgent();
+
+
+        System.out.println(repository.findByMethodName("add"));
     }
 }
