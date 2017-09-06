@@ -2,8 +2,7 @@ package com.michalfudala.histate
 
 import net.bytebuddy.implementation.bind.annotation.*
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
-import org.apache.commons.lang3.builder.ToStringStyle
-import org.apache.commons.lang3.builder.ToStringStyle.*
+import org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE
 import java.lang.reflect.Method
 import java.util.concurrent.Callable
 
@@ -80,13 +79,19 @@ class StatesRepository {
         )
 
 
-    val namesZippedWithValues = method.parameters.zip(allArguments, { parameter, value -> Pair(Argument(parameter.name, parameter.type.name), ArgumentValue(prettyObject(value))) })
+    val namesZippedWithValues = method.parameters.zip(allArguments, { parameter, value -> Pair(Argument(parameter.is, parameter.type.name), ArgumentValue(prettyObject(value))) })
 
     val argumentValues = namesZippedWithValues.associate { it }
 
-    val returnValue = ReturnValue(prettyObject(callable.call()))
+    val ret = callable.call()
 
-    return State(methodDescription, returnValue, argumentValues)
+    val returnValue = ReturnValue(prettyObject(ret))
+
+    val state = State(methodDescription, returnValue, argumentValues)
+
+    println(state)
+
+    return ret
   }
 
   private fun prettyObject(o: Any) = ReflectionToStringBuilder.toString(o, SHORT_PREFIX_STYLE)

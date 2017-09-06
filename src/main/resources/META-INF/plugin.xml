@@ -18,6 +18,13 @@
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="145.0"/>
 
+  <extensions defaultExtensionNs="com.intellij">
+    <runConfigurationExtension implementation="com.michalfudala.histate.HistateRunConfigurationExtension"/>
+
+    <programRunner implementation="com.michalfudala.histate.HistateRunner"/>
+
+    <executor implementation="com.michalfudala.histate.HistateExecutor" />
+  </extensions>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->

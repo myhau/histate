@@ -4,22 +4,27 @@ import net.bytebuddy.agent.builder.AgentBuilder
 import net.bytebuddy.description.type.TypeDescription
 import net.bytebuddy.implementation.MethodDelegation
 import net.bytebuddy.matcher.ElementMatchers
+import java.lang.instrument.Instrumentation
 
 
-class HistateInstrumentation {
+class HistateAgent {
 
 
   fun main(args: Array<String>) {
 
     val statesRepository = StatesRepository.instance
 
-    HistateInstrumentation.instrument(statesRepository)
-
   }
 
-
   companion object {
-    fun instrument(repository: StatesRepository) {
+
+    @JvmStatic
+    fun premain(agentArgs: String?, inst: Instrumentation) {
+      println("Success inside agent !!")
+      instrument(inst, StatesRepository.instance)
+    }
+
+    fun instrument(instrumentation: Instrumentation, repository: StatesRepository) {
       AgentBuilder.Default()
 //                .with(AgentBuilder.Listener.StreamWriting.toSystemOut())
           .type(ElementMatchers.nameEndsWith<TypeDescription>("ForTesting"))
@@ -27,7 +32,7 @@ class HistateInstrumentation {
             builder.method(ElementMatchers.any())
                 .intercept(MethodDelegation.to(repository))
           })
-          .installOnByteBuddyAgent()
+          .installOn(instrumentation)
     }
   }
 

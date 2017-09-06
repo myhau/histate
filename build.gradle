@@ -8,5 +8,23 @@ dependencies {
     // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy
     compile group: 'net.bytebuddy', name: 'byte-buddy', version: '1.7.4'
 
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
     compile "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+
+jar {
+    archiveName = "${rootProject.name}-${rootProject.version}.jar"
+    manifest {
+        attributes(
+                'Premain-Class': 'com.michalfudala.histate.HistateAgent',
+                'Can-Redefine-Classes': 'true',
+                'Can-Retransform-Classes': 'true',
+                'Can-Set-Native-Method-Prefix': 'true',
+                'Implementation-Title': 'HistateAgent',
+                'Implementation-Version': rootProject.version
+        )
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
